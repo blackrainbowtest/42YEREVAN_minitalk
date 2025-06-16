@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:51:45 by root              #+#    #+#             */
-/*   Updated: 2025/06/15 23:08:27 by root             ###   ########.fr       */
+/*   Updated: 2025/06/16 19:59:38 by aramarak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
+/**
+ * @file server.c
+ * 
+ * @brief override default user signals
+ * @param sig signal integer
+ * @returns void
+ */
 void	handle_signal(int sig)
 {
 	static int				bit_count = 0;
@@ -20,7 +27,6 @@ void	handle_signal(int sig)
 	if (sig == SIGUSR2)
 		character |= (1 << bit_count);
 	bit_count++;
-	printf("bit count %d", bit_count);
 	if (bit_count == 8)
 	{
 		write(1, &character, 1);
@@ -29,6 +35,13 @@ void	handle_signal(int sig)
 	}
 }
 
+/**
+ * @file server.c
+ * 
+ * @brief mian func
+ * @param void
+ * @returns exit code
+ */
 int	main(void)
 {
 	pid_t	pid;

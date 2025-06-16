@@ -1,6 +1,7 @@
 # Project: minitalk
 MAKEFLAGS += --no-print-directory
-NAME := minitalk
+NAME_SERVER := server
+NAME_CLIENT := client
 
 # Compiler and flags
 CC := cc
@@ -11,17 +12,22 @@ RM := rm -f
 QUIET = $(if $(filter 0,$(VERBOSE)),@,)
 
 # Files
-SRCS := client.c server.c
-OBJS := $(SRCS:.c=.o)
+SRCS_SERVER := server.c
+SRCS_CLIENT := client.c
+
+OBJS_SERVER = $(SRCS_SERVER:.c=.o)
+OBJS_CLIENT = $(SRCS_CLIENT:.c=.o)
 
 LIBFT := libft/libft.a
-GNL := get_next_line/get_next_line.a
 
-all: $(NAME)
+all: $(NAME_SERVER) $(NAME_CLIENT)
 
 # Link the object files to create the executable
-$(NAME): $(OBJS) $(LIBFT)
-	$(QUIET)$(CC) $(OBJS) $(LIBFT) -o $(NAME)
+$(NAME_SERVER): $(OBJS_SERVER) $(LIBFT)
+	$(QUIET)$(CC) $(CFLAGS) -o $(NAME_SERVER) $(OBJS_SERVER) $(LIBFT)
+
+$(NAME_CLIENT): $(OBJS_CLIENT) $(LIBFT)
+	$(QUIET)$(CC) $(CFLAGS) -o $(NAME_CLIENT) $(OBJS_CLIENT) $(LIBFT)
 
 # Object file generation rules
 %.o: %.c
@@ -37,11 +43,11 @@ $(GNL):
 
 # Clean rules
 clean:
-	$(QUIET)$(RM) $(OBJS)
+	$(QUIET)$(RM) $(OBJS_SERVER) $(OBJS_CLIENT)
 	$(QUIET)make clean -C libft
 
 fclean: clean
-	$(QUIET)$(RM) $(NAME)
+	$(QUIET)$(RM) $(NAME_SERVER) $(NAME_CLIENT)
 	$(QUIET)make fclean -C libft
 
 # Rebuild rules
