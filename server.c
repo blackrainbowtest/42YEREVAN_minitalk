@@ -16,23 +16,29 @@
  * @file server.c
  * 
  * @brief override default user signals
- * @param sig signal integer
+ * @param sig		user signal (SIGUSR1 or SIGUSR2)
+ * @param info		signal info pointer
+ * @param context	(old data, usually NULL)
  * @returns void
  */
-void	handle_signal(int sig)
+void	handle_signal(int sig, siginfo_t *info, void *context)
 {
 	static int				bit_count = 0;
 	static unsigned char	character = 0;
+	pid_t 					client_pid;
 
+	(void)context;
+	client_pid = info->si_pid;
 	if (sig == SIGUSR2)
 		character |= (1 << bit_count);
-	bit_count++;
+	++bit_count;
 	if (bit_count == 8)
 	{
 		write(1, &character, 1);
 		bit_count = 0;
 		character = 0;
 	}
+	kill(client_pid, SIGUSR1);
 }
 
 /**
