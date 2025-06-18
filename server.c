@@ -6,7 +6,7 @@
 /*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:51:45 by root              #+#    #+#             */
-/*   Updated: 2025/06/16 19:59:38 by aramarak         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:00:58 by aramarak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	main(void)
 	pid_t	pid;
 
 	pid = getpid();
-	len = 0;
 	write(1, "PID: ", 5);
 	ft_putnbr_fd(pid, 1);
 	write(1, "\n", 1);

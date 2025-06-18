@@ -6,7 +6,7 @@
 /*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:51:49 by root              #+#    #+#             */
-/*   Updated: 2025/06/16 19:35:14 by aramarak         ###   ########.fr       */
+/*   Updated: 2025/06/18 18:59:48 by aramarak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,5 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include "libft/libft.h"
-
-// SERVER
-void	handle_signal(int sig);
 
 #endif
