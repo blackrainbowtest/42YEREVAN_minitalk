@@ -6,7 +6,7 @@
 /*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:51:45 by root              #+#    #+#             */
-/*   Updated: 2025/06/18 19:00:58 by aramarak         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:37:24 by aramarak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 {
 	static int				bit_count = 0;
 	static unsigned char	character = 0;
-	pid_t 					client_pid;
+	pid_t					client_pid;
 
 	(void)context;
 	client_pid = info->si_pid;
@@ -50,8 +50,8 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
  */
 int	main(void)
 {
-	struct sigaction sa;
-	pid_t	pid;
+	struct sigaction	sa;
+	pid_t				pid;
 
 	pid = getpid();
 	write(1, "PID: ", 5);
