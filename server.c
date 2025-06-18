@@ -38,29 +38,25 @@ void	handle_signal(int sig)
 /**
  * @file server.c
  * 
- * @brief mian func
+ * @brief mian server function
  * @param void
  * @returns exit code
  */
 int	main(void)
 {
+	struct sigaction sa;
 	pid_t	pid;
-	char	buffer[32];
-	int		len;
 
 	pid = getpid();
 	len = 0;
-	while (pid > 0)
-	{
-		buffer[len++] = (pid % 10) + '0';
-		pid /= 10;
-	}
 	write(1, "PID: ", 5);
-	while (len--)
-		write(1, &buffer[len], 1);
+	ft_putnbr_fd(pid, 1);
 	write(1, "\n", 1);
-	signal(SIGUSR1, handle_signal);
-	signal(SIGUSR2, handle_signal);
+	sa.sa_sigaction = handle_signal;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 		pause();
 }
