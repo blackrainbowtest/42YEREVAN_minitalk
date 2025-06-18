@@ -1,0 +1,9 @@
+# Object files
+*.o
+
+# Static libraries
+*.a
+
+# Executable files
+server
+client
