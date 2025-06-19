@@ -27,24 +27,49 @@ void	ft_ack_handle(int sig)
 	g_ack = 1;
 }
 
-/**
- * @file client.c
- */
-void	ft_send_bit(pid_t server_pid, int bit)
+static void	ft_send_signal(pid_t server_pid, int bit)
 {
-	int	timeout;
-
-	timeout = 0;
-	g_ack = 0;
 	if (bit)
 		kill(server_pid, SIGUSR2);
 	else
 		kill(server_pid, SIGUSR1);
+}
+
+static int	ft_wait_for_ack(void)
+{
+	int	timeout;
+
+	timeout = 0;
 	while (!g_ack)
 	{
 		usleep(100);
 		++timeout;
-		if (timeout > 10000)
+		if (timeout > 100)
+		{
+			ft_putstr_fd("No ack, retrying...\n", 2);
+			return (0);
+		}
+	}
+	return (1);
+}
+
+/**
+ * @file client.c
+ * 1000000 microsecond = 1 second
+ */
+void	ft_send_bit(pid_t server_pid, int bit)
+{
+	int	timeout;
+	int retryes;
+
+	retryes = 0;
+	while (1)
+	{
+		g_ack = 0;
+		ft_send_signal(server_pid, bit);
+		if (ft_wait_for_ack())
+			break ;
+		if (++retryes >= 5)
 		{
 			ft_putstr_fd("Error: Server not respond.", 2);
 			exit(1);
