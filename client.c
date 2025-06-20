@@ -23,32 +23,22 @@ volatile sig_atomic_t	g_ack = 0;
  */
 void	ft_ack_handle(int sig)
 {
-	(void)sig;
-	g_ack = 1;
+	if (sig == SIGUSR1)
+		g_state = 1;
+	else if (sig == SIGUSR2)
+		g_state = 2;
 }
 
-static void	ft_send_signal(pid_t server_pid, int bit)
-{
-	if (bit)
-		kill(server_pid, SIGUSR2);
-	else
-		kill(server_pid, SIGUSR1);
-}
-
-static int	ft_wait_for_ack(void)
+static int	ft_wait_for_ack(int expection)
 {
 	int	timeout;
 
 	timeout = 0;
-	while (!g_ack)
+	while (g_ack != expection)
 	{
 		usleep(100);
-		++timeout;
-		if (timeout > 100)
-		{
-			ft_putstr_fd("No ack, retrying...\n", 2);
+		if (++timeout > 100)
 			return (0);
-		}
 	}
 	return (1);
 }
@@ -66,7 +56,10 @@ void	ft_send_bit(pid_t server_pid, int bit)
 	while (1)
 	{
 		g_ack = 0;
-		ft_send_signal(server_pid, bit);
+			if (bit)
+			kill(server_pid, SIGUSR2);
+		else
+			kill(server_pid, SIGUSR1);
 		if (ft_wait_for_ack())
 			break ;
 		if (++retryes >= 5)

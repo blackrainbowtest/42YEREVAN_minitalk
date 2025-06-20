@@ -34,6 +34,11 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 	++bit_count;
 	if (bit_count == 8)
 	{
+		if (character == '\0')
+		{
+			kill(client_pid, SIGUSR2);
+			return ;
+		}
 		write(1, &character, 1);
 		bit_count = 0;
 		character = 0;
