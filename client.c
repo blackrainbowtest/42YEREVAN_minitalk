@@ -24,17 +24,17 @@ volatile sig_atomic_t	g_ack = 0;
 void	ft_ack_handle(int sig)
 {
 	if (sig == SIGUSR1)
-		g_state = 1;
+		g_ack = 1;
 	else if (sig == SIGUSR2)
-		g_state = 2;
+		g_ack = 2;
 }
 
-static int	ft_wait_for_ack(int expection)
+static int	ft_wait_for_ack(int expected)
 {
 	int	timeout;
 
 	timeout = 0;
-	while (g_ack != expection)
+	while (g_ack != expected)
 	{
 		usleep(100);
 		if (++timeout > 100)
@@ -56,15 +56,15 @@ void	ft_send_bit(pid_t server_pid, int bit)
 	while (1)
 	{
 		g_ack = 0;
-			if (bit)
+		if (bit)
 			kill(server_pid, SIGUSR2);
 		else
 			kill(server_pid, SIGUSR1);
-		if (ft_wait_for_ack())
+		if (ft_wait_for_ack(1))
 			break ;
 		if (++retryes >= 5)
 		{
-			ft_putstr_fd("Error: Server not respond.", 2);
+			ft_putstr_fd("Error: Server not respond.\n", 2);
 			exit(1);
 		}
 	}
@@ -99,7 +99,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 	{
-		write(2, "Usage: ./client <PID> <message>\n", 33);
+		ft_putstr_fd("Usage: ./client <PID> <message>\n", 2);
 		return (1);
 	}
 	server_pid = ft_atoi(argv[1]);
@@ -109,5 +109,10 @@ int	main(int argc, char **argv)
 	while (msg[i])
 		ft_send_char(server_pid, msg[i++]);
 	ft_send_char(server_pid, '\0');
+	if (!ft_wait_for_ack(2))
+	{
+		ft_putstr_fd("Error: Final ACK not received.\n", 2);
+		exit(1);
+	}
 	return (0);
 }
