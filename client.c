@@ -6,12 +6,18 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:18:56 by aramarak          #+#    #+#             */
-/*   Updated: 2025/06/21 10:19:02 by root             ###   ########.fr       */
+/*   Updated: 2025/06/21 13:28:55 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
+/**
+ * @file client.c
+ * @brief Signal handler to acknowledge receipt of a signal from the server.
+ *
+ * @param sig The signal received (SIGUSR1 for bit ACK, SIGUSR2 for message end).
+ */
 volatile sig_atomic_t	g_ack = 0;
 
 /**
@@ -29,6 +35,13 @@ void	ft_ack_handle(int sig)
 		g_ack = 2;
 }
 
+/**
+ * @file client.c
+ * @brief Waits for a specific ACK value from the server.
+ *
+ * @param expected The expected value of g_ack (1 for bit ACK, 2 for final ACK).
+ * @return int 1 if the expected ACK is received, 0 if timeout occurs.
+ */
 static int	ft_wait_for_ack(int expected)
 {
 	int	timeout;
@@ -45,7 +58,12 @@ static int	ft_wait_for_ack(int expected)
 
 /**
  * @file client.c
- * 1000000 microsecond = 1 second
+ * @brief Sends a single bit to the server and waits for confirmation.
+ *
+ * Retries up to 5 times if no confirmation is received.
+ *
+ * @param server_pid The PID of the server.
+ * @param bit The bit to send (0 or 1).
  */
 void	ft_send_bit(pid_t server_pid, int bit)
 {
@@ -71,12 +89,10 @@ void	ft_send_bit(pid_t server_pid, int bit)
 
 /**
  * @file client.c
- * 
- * @brief	Client-side code for sending characters to 
- * a server process via signals.
- * @param	server_pid The process ID of the server.
- * @param	c The character to be sent
- * @return	void
+ * @brief Sends a character to the server bit by bit.
+ *
+ * @param server_pid The PID of the server.
+ * @param c The character to send.
  */
 void	ft_send_char(pid_t server_pid, char c)
 {
@@ -90,6 +106,16 @@ void	ft_send_char(pid_t server_pid, char c)
 	}
 }
 
+/**
+ * @file client.c
+ * @brief Entry point for the client program.
+ *
+ * Sends a string to the server process specified by PID using Unix signals.
+ *
+ * @param argc Number of arguments.
+ * @param argv Argument array: argv[1] is the PID, argv[2] is the message.
+ * @return int Exit status code.
+ */
 int	main(int argc, char **argv)
 {
 	pid_t	server_pid;

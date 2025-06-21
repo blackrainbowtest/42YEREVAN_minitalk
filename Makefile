@@ -53,4 +53,7 @@ fclean: clean
 # Rebuild rules
 re: fclean all
 
+doc:
+	doxygen Doxyfile
+
 .PHONY: all clean fclean re

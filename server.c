@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:51:45 by root              #+#    #+#             */
-/*   Updated: 2025/06/18 19:37:24 by aramarak         ###   ########.fr       */
+/*   Updated: 2025/06/21 13:29:05 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 /**
  * @file server.c
- * 
- * @brief override default user signals
- * @param sig		user signal (SIGUSR1 or SIGUSR2)
- * @param info		signal info pointer
- * @param context	(old data, usually NULL)
- * @returns void
+ * @brief Signal handler for receiving bits from the client.
+ *
+ * Builds characters from 8 bits sent by the client using signals.
+ * Sends SIGUSR1 as ACK for each bit.
+ * Sends SIGUSR2 when a full message (`\0`) is received.
+ *
+ * @param sig The received signal (SIGUSR1 or SIGUSR2).
+ * @param info Signal metadata containing the client PID.
+ * @param context Unused context pointer.
  */
 void	handle_signal(int sig, siginfo_t *info, void *context)
 {
@@ -48,10 +51,11 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 
 /**
  * @file server.c
- * 
- * @brief mian server function
- * @param void
- * @returns exit code
+ * @brief Entry point for the server program.
+ *
+ * Displays its PID and waits for incoming signals from clients to reconstruct and print messages.
+ *
+ * @return int Exit status code.
  */
 int	main(void)
 {
