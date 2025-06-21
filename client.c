@@ -6,7 +6,7 @@
 /*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:18:56 by aramarak          #+#    #+#             */
-/*   Updated: 2025/06/21 19:37:22 by aramarak         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:42:48 by aramarak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_send_bit(pid_t server_pid, int bit)
 			break ;
 		if (++retryes >= 5)
 		{
-			ft_putstr_fd("Error: Server not respond.\n", 2);
+			ft_putstr_fd("ERROR: Server not respond.\n", 1);
 			exit(1);
 		}
 	}
@@ -124,7 +124,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 	{
-		ft_putstr_fd("Usage: ./client <PID> <message>\n", 2);
+		ft_putstr_fd("ERROR: ./client <PID> <message>\n", 1);
 		return (1);
 	}
 	server_pid = ft_atoi(argv[1]);
@@ -137,7 +137,7 @@ int	main(int argc, char **argv)
 	ft_send_char(server_pid, '\0');
 	if (!ft_wait_for_ack(2))
 	{
-		ft_putstr_fd("Error: Final ACK not received.\n", 2);
+		ft_putstr_fd("ERROR: Final ACK not received.\n", 1);
 		exit(1);
 	}
 	return (0);
