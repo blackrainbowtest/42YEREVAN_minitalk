@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:18:56 by aramarak          #+#    #+#             */
-/*   Updated: 2025/06/18 20:06:51 by aramarak         ###   ########.fr       */
+/*   Updated: 2025/06/21 10:19:02 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ static int	ft_wait_for_ack(int expected)
  */
 void	ft_send_bit(pid_t server_pid, int bit)
 {
-	int	timeout;
-	int retryes;
+	int	retryes;
 
 	retryes = 0;
 	while (1)
