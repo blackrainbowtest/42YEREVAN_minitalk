@@ -6,7 +6,7 @@
 /*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:51:45 by root              #+#    #+#             */
-/*   Updated: 2025/06/21 19:07:08 by aramarak         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:23:19 by aramarak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
  * @file server.c
  * @brief Entry point for the server program.
  *
- * Displays its PID and waits for incoming signals from clients to reconstruct and print messages.
+ * Displays its PID and waits for incoming signals from 
+ * clients to reconstruct and print messages.
  *
  * @return int Exit status code.
  */
