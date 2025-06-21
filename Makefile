@@ -49,6 +49,7 @@ clean:
 fclean: clean
 	$(QUIET)$(RM) $(NAME_SERVER) $(NAME_CLIENT)
 	$(QUIET)make fclean -C libft
+f: fclean
 
 # Rebuild rules
 re: fclean all

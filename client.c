@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 19:18:56 by aramarak          #+#    #+#             */
-/*   Updated: 2025/06/21 13:28:55 by root             ###   ########.fr       */
+/*   Updated: 2025/06/21 19:07:30 by aramarak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	ft_wait_for_ack(int expected)
 	while (g_ack != expected)
 	{
 		usleep(100);
-		if (++timeout > 100)
+		if (++timeout > 200)
 			return (0);
 	}
 	return (1);
@@ -77,7 +77,7 @@ void	ft_send_bit(pid_t server_pid, int bit)
 			kill(server_pid, SIGUSR2);
 		else
 			kill(server_pid, SIGUSR1);
-		if (ft_wait_for_ack(1))
+		if (ft_wait_for_ack(1) || g_ack == 2)
 			break ;
 		if (++retryes >= 5)
 		{
@@ -129,6 +129,7 @@ int	main(int argc, char **argv)
 	}
 	server_pid = ft_atoi(argv[1]);
 	signal(SIGUSR1, ft_ack_handle);
+	signal(SIGUSR2, ft_ack_handle);
 	msg = argv[2];
 	i = 0;
 	while (msg[i])

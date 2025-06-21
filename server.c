@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aramarak <aramarak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:51:45 by root              #+#    #+#             */
-/*   Updated: 2025/06/21 13:29:05 by root             ###   ########.fr       */
+/*   Updated: 2025/06/21 19:07:08 by aramarak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 	{
 		if (character == '\0')
 		{
+			bit_count = 0;
+			character = 0;
 			kill(client_pid, SIGUSR2);
 			return ;
 		}
